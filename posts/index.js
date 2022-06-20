@@ -9,7 +9,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const posts = {};
-
+// To get to these enpoints when running kubernetes we have to figure out our node ip by running "kubectl get services" command
+// and check the port of the type NodePort (this is a port that allows communication from outside kubernetes cluster in local development.
+// In our case the domain will be http://localhost:31086/posts
 app.get('/posts', (req, res) => {
   res.send(posts);
 });
@@ -21,9 +23,10 @@ app.post('/posts', async (req, res) => {
     id,
     title,
   };
-
+  //addres for the event bus that is deployed in kubernetes will be te name of event-bus cluster ip service insode kubernetes
+  // it can be retrieved with "kubectl get services" command
   await axios
-    .post('http://localhost:4005/events', {
+    .post('http://event-bus-srv:4005/events', {
       type: 'PostCreated',
       data: {
         id,
