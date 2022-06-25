@@ -1,5 +1,8 @@
 FROM node:16-alpine
 
+ENV CI=true
+ENV WDS_SOCKET_PORT=0
+
 # Set up working directory inside container
 WORKDIR /app
 

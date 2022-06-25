@@ -12,11 +12,8 @@ const posts = {};
 // To get to these enpoints when running kubernetes we have to figure out our node ip by running "kubectl get services" command
 // and check the port of the type NodePort (this is a port that allows communication from outside kubernetes cluster in local development.
 // In our case the domain will be http://localhost:31086/posts
-app.get('/posts', (req, res) => {
-  res.send(posts);
-});
 
-app.post('/posts', async (req, res) => {
+app.post('/posts/create', async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
   posts[id] = {
